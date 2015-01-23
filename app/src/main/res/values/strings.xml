@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Location Viewer 2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="txtLongitude">Longitude</string>
+    <string name="txtLatitude">Latitude</string>
+    <string name="txtUnknown">Unknown</string>
+    <string name="txtTime">Time</string>
+    <string name="txtProvider">Provider</string>
+    <string name="txtAccuracy">Accuracy</string>
+    <string name="txtPower">Power Requirement</string>
+    <string name="txtAltitude">Altitude</string>
+    <string name="txtSpeed">Speed</string>
+    <string name="txtAddress">Address</string>
+</resources>
