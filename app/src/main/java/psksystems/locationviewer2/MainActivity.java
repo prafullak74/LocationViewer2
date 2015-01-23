@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener 
 
         best = mgr.getBestProvider(criteria, true);
         lg = "Best provider = " + best;
-        //Log.i(tag, lg);
+        Log.i(tag, lg);
         location = getLastLoc();
 
 
@@ -85,6 +85,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener 
 
         if(location == null)
         {
+            Log.i(tag, "Location found to be null.\r\n");
             tvLat.setText("Unknown");
             tvLan.setText("Unknown");
             tvTime.setText("Unknown");
@@ -156,13 +157,20 @@ public class MainActivity extends ActionBarActivity implements LocationListener 
         Location loc = null;
         boolean isGps;
         boolean isNetwork;
-        boolean isBest;
+        boolean isBest = false;
 
+        Log.i(tag, "Inside getLastLoc");
         mgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         isGps = mgr.isProviderEnabled(mgr.GPS_PROVIDER);
+        Log.i(tag, "GPS Enabled: " + isGps);
         isNetwork = mgr.isProviderEnabled(mgr.NETWORK_PROVIDER);
+        Log.i(tag, "Network Enabled: " + isNetwork);
         best = mgr.getBestProvider(criteria, true);
-        isBest = mgr.isProviderEnabled(best);
+        Log.i(tag, "Best provider: " + best);
+        if(best != null) {
+            isBest = mgr.isProviderEnabled(best);
+            Log.i(tag, "Best Enabled: " + isBest);
+        }
 
         if(isBest) {
             provider = best;
@@ -215,7 +223,17 @@ public class MainActivity extends ActionBarActivity implements LocationListener 
     protected void onResume() {
         super.onResume();
         Log.i(tag, "Starting location updates");
-        mgr.requestLocationUpdates(best, 15000, 1, this);
+        best = mgr.getBestProvider(criteria, true);
+        Log.i(tag, "Inside onResume");
+        Log.i(tag, "Best is: " + best);
+        if(best != null) {
+            mgr.requestLocationUpdates(best, 15000, 1, this);
+        }
+        else {
+            Log.i(tag, "Cannot resume location updates");
+            this.location = null;
+            UpdateUI();
+        }
 
         // For testing only
         //mgr.requestLocationUpdates("gps", 15000, 1, this);
