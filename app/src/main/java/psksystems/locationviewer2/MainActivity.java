@@ -5,7 +5,6 @@ import android.location.LocationListener;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.TextView;
 import android.view.MenuItem;
 import android.util.Log;
@@ -68,49 +67,64 @@ public class MainActivity extends ActionBarActivity implements LocationListener 
     }
 
     public void UpdateUI() {
-        lg = "************************ Updates *******************\r\n";
+/*        lg = "************************ Updates *******************\r\n";
         lg = lg + "Provider: " + provider + "\r\n";
         lg = lg + location.toString();
         lg = lg + "************************ End Updates ***************\r\n";
         Log.i(tag, lg);
-
+*/
         TextView tvLat = (TextView) findViewById(R.id.txtLatitude);
+        TextView tvLan = (TextView) findViewById(R.id.txtLongitude);
+        TextView tvTime = (TextView) findViewById(R.id.txtTime);
+        TextView tvAccuracy = (TextView) findViewById(R.id.txtAccuracy);
+        TextView tvProvider = (TextView) findViewById(R.id.txtProvider);
+        TextView tvPower = (TextView) findViewById(R.id.txtPower);
+        TextView tvAltitude = (TextView) findViewById(R.id.txtAltitude);
+        TextView tvSpeed = (TextView) findViewById(R.id.txtSpeed);
+        TextView tvAddr = (TextView) findViewById(R.id.txtAddress);
+
+        if(location == null)
+        {
+            tvLat.setText("Unknown");
+            tvLan.setText("Unknown");
+            tvTime.setText("Unknown");
+            tvAccuracy.setText("N/A");
+            tvPower.setText("N/A");
+            tvAltitude.setText("N/A");
+            tvSpeed.setText("N/A");
+            tvAddr.setText("N/A");
+            return;
+        }
+
         tvLat.setText(location.getLatitude() + "");
 
-        TextView tvLan = (TextView) findViewById(R.id.txtLongitude);
         tvLan.setText(location.getLongitude() + "");
 
         Long longdt = Long.valueOf(location.getTime());
         Calendar cal = Calendar.getInstance();
-        int offset = cal.getTimeZone().getOffset(cal.getTimeInMillis());
+        //int offset = cal.getTimeZone().getOffset(cal.getTimeInMillis());
         Date da = new Date();
         da = new Date(longdt); // subtract if needed - da = new Date(longdt - (long)offset);
         cal.setTime(da);
         String tmp = cal.getTime().toString();
         String tm = DateFormat.getTimeInstance(DateFormat.MEDIUM).format(da);
-        TextView tvTime = (TextView) findViewById(R.id.txtTime);
         tvTime.setText(tm);
 
         LocationProvider locProvider = mgr.getProvider(location.getProvider());
 
-        TextView tvAccuracy = (TextView) findViewById(R.id.txtAccuracy);
         tvAccuracy.setText(location.getAccuracy() + "");
         //tvAccuracy.setText(locProvider.getAccuracy() + "");
 
-        TextView tvProvider = (TextView) findViewById(R.id.txtProvider);
         //tvProvider.setText(location.getProvider());
         tvProvider.setText(locProvider.getName());
 
-        TextView tvPower = (TextView) findViewById(R.id.txtPower);
         tvPower.setText(POWERREQ[locProvider.getPowerRequirement()]);
 
-        TextView tvAltitude = (TextView) findViewById(R.id.txtAltitude);
         if (location.hasAltitude())
             tvAltitude.setText(location.getAltitude() + "");
         else
             tvAltitude.setText("N/A");
 
-        TextView tvSpeed = (TextView) findViewById(R.id.txtSpeed);
         if (location.hasSpeed())
             tvSpeed.setText(location.getSpeed() + "");
         else
@@ -132,7 +146,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener 
 
         }
 
-        TextView tvAddr = (TextView) findViewById(R.id.txtAddress);
         tvAddr.setText(addr);
 
 
